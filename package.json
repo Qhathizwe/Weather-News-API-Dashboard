@@ -4,17 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "callback": "tsx src/callbackVersion.ts",
-    "promise": "tsx src/promiseVersion.ts",
-    "async": "tsx src/asyncAwaitVersion.ts"
+
+    "dev": "tsx src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "dependencies": {
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Qhathizwe/Weather-News-API-Dashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Qhathizwe/Weather-News-API-Dashboard/issues"
+  },
+  "homepage": "https://github.com/Qhathizwe/Weather-News-API-Dashboard#readme",
+  "devDependencies": {
     "@types/node": "^22.20.2",
     "ts-node": "^10.9.2",
+    "tsx": "^4.23.13",
     "typescript": "^7.0.2"
   }
 }
