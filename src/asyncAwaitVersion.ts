@@ -6,7 +6,7 @@ const newsUrl = `https://newsapi.org/v2/everything?q=SouthAfrica&apiKey=${newsAp
 
 const fetchWeatherAndNews = async () => {
     console.log('Fetching Weather and News Data starting...')
-
+ 
     try {
         //Fetching Weather only
         console.log('Fetching Weather response...')
@@ -28,7 +28,7 @@ const fetchWeatherAndNews = async () => {
             console.log("Error fetching news data...")
         }
 
-        console.log("Unpacking weather data into Json")
+        console.log("Unpacking news data into Json")
         const newsData = await newsResponse.json()
         console.log(newsData)
 
