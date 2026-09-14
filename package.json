@@ -6,7 +6,8 @@
   "scripts": {
 
     "dev": "tsx src/index.ts",
-    "async": "tsx src/asyncAwaitVersion.ts"
+    "async": "tsx src/asyncAwaitVersion.ts",
+    "callback": "tsx src/callbackVersion.ts"
   },
   "keywords": [],
   "author": "",
