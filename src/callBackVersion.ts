@@ -4,7 +4,7 @@ const newsApiKey = '8069bc50324c42bebd6eafb4ec7a5ccb';
 function fetchWeatherUrl(callback: (error: Error | null, weatherUrl?: string) => void) {
     console.log("Fetching weather url and apiKey")
     setTimeout(() => {
-        const weatherUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Pietermaritzburg/today?key=${apiKey}`;
+        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=-29.6168&longitude=30.3928&current_weather=true`;
         callback(null, weatherUrl)
     },1000)
 }
@@ -32,7 +32,7 @@ function getWeatherResponse(weatherUrl: string, callback: (error: Error | null, 
 function fetchNewsUrl(callback: (error: Error | null, newsUrl?: string) => void) {
     console.log("Fetching news url and apiKey")
     setTimeout(() => {
-        const newsUrl = `https://newsapi.org/v2/everything?q=SouthAfrica&apiKey=${newsApiKey}`;
+        const newsUrl = `https://dummyjson.com/posts?limit=5`;
         callback(null, newsUrl)
     },1000)
 }

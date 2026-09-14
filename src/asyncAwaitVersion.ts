@@ -1,7 +1,7 @@
-const apiKey = 'YTN65YNWYXNGZ6MURLTGR2ELK';
-const newsApiKey =  '8069bc50324c42bebd6eafb4ec7a5ccb';
-const weatherUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Pietermaritzburg/today?key=${apiKey}`;
-const newsUrl = `https://newsapi.org/v2/everything?q=SouthAfrica&apiKey=${newsApiKey}`;
+// const apiKey = 'YTN65YNWYXNGZ6MURLTGR2ELK';
+// const newsApiKey =  '8069bc50324c42bebd6eafb4ec7a5ccb';
+const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=-29.6168&longitude=30.3928&current_weather=true`;
+const newsUrl = `https://dummyjson.com/posts?limit=5`;
 
 
 const fetchWeatherAndNews = async () => {
