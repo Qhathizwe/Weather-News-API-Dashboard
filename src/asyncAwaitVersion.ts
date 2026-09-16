@@ -1,7 +1,8 @@
-// const apiKey = 'YTN65YNWYXNGZ6MURLTGR2ELK';
-// const newsApiKey =  '8069bc50324c42bebd6eafb4ec7a5ccb';
-const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=-29.6168&longitude=30.3928&current_weather=true`;
-const newsUrl = `https://dummyjson.com/posts?limit=5`;
+import * as dotenv from 'dotenv';
+
+dotenv.config(); 
+const weatherUrl = process.env.WEATHER_API_URL!;
+const newsUrl = process.env.NEWS_API_URL!;
 
 
 const fetchWeatherAndNews = async () => {
@@ -39,5 +40,6 @@ const fetchWeatherAndNews = async () => {
     }
     console.log('Fetching Weather and News Data completed.');
 }
+
 fetchWeatherAndNews();
 
