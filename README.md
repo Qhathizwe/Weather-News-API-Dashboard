@@ -319,26 +319,6 @@ or run the relevant TypeScript files using the project's configured commands.
 
 ---
 
-# 🔑 API Keys
-
-If the APIs used by the project require API keys, configure them according to the project's environment configuration.
-
-**Do not commit private API keys to GitHub.**
-
-A typical environment file could look like:
-
-```env
-WEATHER_API_KEY=your_api_key
-NEWS_API_KEY=your_api_key
-```
-
-And the environment file should be excluded from Git:
-
-```text
-.env
-.env.local
-```
-
 ---
 
 # 🔍 Key Concepts Demonstrated
