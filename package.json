@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-
     "dev": "tsx src/index.ts",
     "async": "tsx src/asyncAwaitVersion.ts",
     "callback": "tsx src/callbackVersion.ts",
@@ -27,5 +26,8 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
   }
 }
