@@ -1,9 +1,12 @@
 import https from 'https'
+import * as dotenv from 'dotenv';
+
+dotenv.config(); 
 
 function fetchWeatherUrl(callback: (error: Error | null, weatherUrl?: string) => void) {
     console.log("Fetching weather url...")
     setTimeout(() => {
-        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=-29.6168&longitude=30.3928&current_weather=true`;
+        const weatherUrl = process.env.WEATHER_API_URL;
         callback(null, weatherUrl)
     }, 1000)
 }
@@ -32,7 +35,7 @@ function getWeatherResponse(weatherUrl: string, callback: (error: Error | null, 
 function fetchNewsUrl(callback: (error: Error | null, newsUrl?: string) => void) {
     console.log("Fetching news url via HTTPS...")
     setTimeout(() => {
-        const newsUrl = `https://dummyjson.com/posts?limit=5`;
+        const newsUrl = process.env.NEWS_API_URL;
         callback(null, newsUrl)
     }, 1000)
 }
