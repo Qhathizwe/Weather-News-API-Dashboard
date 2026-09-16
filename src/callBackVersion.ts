@@ -1,88 +1,125 @@
-const apiKey = 'YTN65YNWYXNGZ6MURLTGR2ELK';
-const newsApiKey = '8069bc50324c42bebd6eafb4ec7a5ccb';
+import https from 'https'
 
 function fetchWeatherUrl(callback: (error: Error | null, weatherUrl?: string) => void) {
-    console.log("Fetching weather url and apiKey")
+    console.log("Fetching weather url...")
     setTimeout(() => {
         const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=-29.6168&longitude=30.3928&current_weather=true`;
         callback(null, weatherUrl)
-    },1000)
+    }, 1000)
 }
 
-function getWeatherResponse(weatherUrl: string, callback: (error: Error | null, weatherData?: string) => void) {
-    console.log("Fetching weather response from API")
+function getWeatherResponse(weatherUrl: string, callback: (error: Error | null, rawWeatherData?: string) => void) {
+    console.log("Fetching weather response from API via HTTPS...")
     setTimeout(() => {
-        const weatherResponse = fetch(weatherUrl)
-        weatherResponse
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Fetching weather Response failed: ${response.status}`);
-                }
-                return response.text();
-            })
-            .then(weatherData => {
-                callback(null, weatherData);
-            })
-            .catch(error => {
-                callback(error);
+        https.get(weatherUrl, (response) => {
+            if (response.statusCode && (response.statusCode < 200 || response.statusCode >= 300)) {
+                return callback(new Error(`Request Failed, status code: ${response.statusCode}`));
+            }
+
+            let rawWeatherData = '';
+            response.setEncoding('utf8')
+
+            response.on('data', (chunk) => { rawWeatherData += chunk; });
+
+            response.on('end', () => {
+                callback(null, rawWeatherData)
             });
+        })
+
     }, 2000)
 }
 
 function fetchNewsUrl(callback: (error: Error | null, newsUrl?: string) => void) {
-    console.log("Fetching news url and apiKey")
+    console.log("Fetching news url via HTTPS...")
     setTimeout(() => {
         const newsUrl = `https://dummyjson.com/posts?limit=5`;
         callback(null, newsUrl)
-    },1000)
+    }, 1000)
 }
 
-function getNewsResponse(newsUrl: string, callback: (error: Error | null, newsResponse?: string) => void) {
+function getNewsResponse(newsUrl: string, callback: (error: Error | null, rawNewsData?: string) => void) {
     console.log("Fetching news Response from API")
 
-    setTimeout(()=>{
-        const newsResponse = fetch(newsUrl)
-
-        newsResponse
-        .then(response => {
-            if (!response.ok){
-                throw new Error (`Failed to fetch response from API: ${response.status} `)
+    setTimeout(() => {
+         https.get(newsUrl, (response)=>{
+            if (response.statusCode && (response.statusCode < 200 || response.statusCode>= 300)){
+                return callback(new Error(`Request Failed, Status Code: ${response.statusCode}`))
             }
-            return response.text();
-        })
-        .then(weatherData => {
-            callback(null, weatherData)
-        })
-        .catch(error =>{
-            callback(error)
-        })
 
-    }, 20000)
+            let rawNewsData ='';
+            response.setEncoding('utf8')
+
+            response.on('data', (chunk) => {rawNewsData += chunk});
+
+            response.on('end', () =>{
+                callback(null, rawNewsData)
+            })
+
+         })  
+
+    }, 2000)
 };
 
-fetchWeatherUrl((error, weatherUrl) =>{
-    if (error){
-        console.error("Error fetching weather url", error.message);
+fetchWeatherUrl((error, weatherUrl) => {
+    if (error) {
+        console.error("Error fetching weather url:", error.message);
+        return;
     }
-    if (weatherUrl){
-        getWeatherResponse(weatherUrl, (error, weatherData) =>{
-            if (error){
-                console.error("Error fetching weather response.", error.message)
+
+    if (weatherUrl) {
+        getWeatherResponse(weatherUrl, (error, rawWeatherData) => {
+            if (error) {
+                console.error("Error fetching weather response:", error.message);
+                return;
             }
-            if (weatherData){
-                console.log(weatherData)
-                fetchNewsUrl((error, newsUrl) =>{
+
+            if (rawWeatherData) {
+                try {
+                    // Structure raw weather data
+                    console.log("====Structuring raw data====")
+                    const weatherObj = JSON.parse(rawWeatherData);
+                    const current = weatherObj.current_weather;
+
+                    console.log("===  STRUCTURED WEATHER ===");
+                    console.log(`location: ${current.location}`)
+                    console.log(`Temperature:   ${current.temperature}°C`);
+                    console.log(`Wind Speed:    ${current.windspeed} km/h`);
+                    console.log(`Coordinates:   ${weatherObj.latitude}°S, ${weatherObj.longitude}°E`);
+                    console.log("=============================");
+                } catch (parseError) {
+                    console.error("Failed to parse weather JSON");
+                }
+
+                fetchNewsUrl((error, newsUrl) => {
                     if (error) {
-                     console.error("Error fetching news url", error.message);   
+                        console.error("Error fetching news url:", error.message);
+                        return;
                     }
-                    if (newsUrl){
-                        getNewsResponse(newsUrl, (error, newsData) => {
-                            if (error){
-                            console.error("Error fetching news response.", error.message)    
+
+                    if (newsUrl) {
+                        getNewsResponse(newsUrl, (error, rawNewsData) => {
+                            if (error) {
+                                console.error("Error fetching news response:", error.message);
+                                return;
                             }
-                            if (newsData){
-                                console.log(newsData)
-                                console.log("All operations completed successfully.")
+
+                            if (rawNewsData) {
+                                try {
+                                    // Structure raw data
+                                    console.log("====Structuring raw data====")
+                                    const newsObj = JSON.parse(rawNewsData);
+
+                                    console.log("===  TOP STORIES ===");
+                                    newsObj.posts.forEach((post: any, index: number) => {
+                                        console.log(`${index + 1}. ${post.title}`);
+                                        console.log(`   Likes: ${post.reactions?.likes || 0} | Views: ${post.views || 0}`);
+                                    });
+                                    console.log("======================");
+                                } catch (parseError) {
+                                    console.error("Failed to parse news JSON");
+                                }
+
+                                console.log("All operations completed successfully.");
                             }
                         })
                     }
