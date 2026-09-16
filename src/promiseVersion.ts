@@ -1,10 +1,13 @@
 import https from 'https'
+import * as dotenv from 'dotenv';
+
+dotenv.config(); 
 
 function promiseFetchWeatherUrl(): Promise<string> {
     console.log("Fetching weather url...")
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=-29.6168&longitude=30.3928&current_weather=true`;
+            const weatherUrl = process.env.WEATHER_API_URL!;
             resolve(weatherUrl)
         }, 1000)
     })
@@ -35,7 +38,7 @@ function promiseFetchNewsUrl(): Promise<string> {
     console.log("Fetching new url...")
     return new Promise((resolve, rejects) => {
         setTimeout(() => {
-            const newsUrl = `https://dummyjson.com/posts?limit=5`;
+            const newsUrl = process.env.NEWS_API_URL!;
             resolve(newsUrl)
         }, 1000)
     })
