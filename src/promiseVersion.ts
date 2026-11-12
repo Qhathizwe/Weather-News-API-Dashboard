@@ -68,8 +68,10 @@ function displayWeather(weatherData: string): void {
     console.log("==========================================================================");
     console.log("==== Structuring Raw Weather Data ====");
     console.log("==========================================================================");
+
     const weatherObj = JSON.parse(weatherData);
     const current = weatherObj.current_weather;
+
     console.log(` Location Coordinates: ${weatherObj.latitude}°S, ${weatherObj.longitude}°E`);
     console.log(`Temperature: ${current.temperature}°C`);
     console.log(` Wind Speed: ${current.windspeed} km/h`);
@@ -103,7 +105,7 @@ function promiseChainMethod(): Promise<void> {
         .then((newsUrl) => promiseGetNewsData(newsUrl))
         .then(({ newsData }) => {
             displayNews(newsData);
-            console.log("✅ CHAIN METHOD COMPLETE");
+            console.log(" CHAIN METHOD COMPLETE");
         })
         .catch((err) => console.error("Error in chain:", err));
 }
@@ -123,7 +125,7 @@ function promiseAllMethod(): Promise<void> {
         .then(([{ weatherData }, { newsData }]) => {
             displayWeather(weatherData);
             displayNews(newsData);
-            console.log("✅ PROMISE.ALL METHOD COMPLETE");
+            console.log(" PROMISE.ALL METHOD COMPLETE");
         })
         .catch((err) => console.error("Error in Promise.all:", err));
 }
@@ -145,7 +147,7 @@ function promiseRaceMethod(): Promise<void> {
 
     return Promise.race([weatherPipeline, newsPipeline])
         .then((winnerMessage) => {
-            console.log(`--- ✅ PROMISE.RACE COMPLETE. Winner: 🏁 ${winnerMessage} ---`);
+            console.log(`--- PROMISE.RACE COMPLETE. Winner: 🏁 ${winnerMessage} ---`);
             console.log("==========================================================================");
         })
         .catch((err) => console.error("Error in Promise.race:", err));
